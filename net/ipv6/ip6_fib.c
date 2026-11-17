@@ -585,7 +585,6 @@ static int inet6_dump_fib(struct sk_buff *skb, struct netlink_callback *cb)
 	const struct nlmsghdr *nlh = cb->nlh;
 	struct net *net = sock_net(skb->sk);
 	unsigned int h, s_h;
-
 	struct fib6_walker *w;
 	struct fib6_table *tb;
 	struct hlist_head *head;
@@ -636,7 +635,11 @@ static int inet6_dump_fib(struct sk_buff *skb, struct netlink_callback *cb)
 			return -ENOENT;
 		}
 
-		res = fib6_dump_table(tb, skb, cb);
+		if (!cb->args[0]) {
+			res = fib6_dump_table(tb, skb, cb);
+			if (!res)
+				cb->args[0] = 1;
+		}
 		goto out;
 	}
 

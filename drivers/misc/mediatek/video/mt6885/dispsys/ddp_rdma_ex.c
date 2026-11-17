@@ -1493,10 +1493,9 @@ int rdma_ioctl(enum DISP_MODULE_ENUM module, void *cmdq_handle,
 	enum DDP_IOCTL_NAME ioctl_cmd, void *params)
 {
 	int ret = 0;
-	enum DDP_IOCTL_NAME ioctl = ioctl_cmd;
 	unsigned int idx = rdma_index(module);
 
-	switch (ioctl) {
+	switch (ioctl_cmd) {
 	case DDP_RDMA_GOLDEN_SETTING:
 	{
 		struct disp_ddp_path_config *pConfig;
