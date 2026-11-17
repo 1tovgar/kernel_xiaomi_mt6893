@@ -8396,6 +8396,11 @@ page_owner=on loop.max_part=7";
 		compatible = "mediatek,touch";
 	};
 
+	gamekey {
+		compatible = "xm,gamekey";
+		phandle = <0x1ec>;
+	};
+
 	tcpc_pd: tcpc_pd {
 	};
 
