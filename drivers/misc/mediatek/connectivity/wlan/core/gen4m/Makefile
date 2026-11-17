@@ -392,18 +392,7 @@ else
     ccflags-y += -DCFG_WIFI_IP_SET=1
 endif
 
-# show MTK wlan sar project
-$(warning "MTK_WLAN_SAR_PROJECT:$(MTK_WLAN_SAR_PROJECT)")
-
-# add CFG_CHOPIN_SAR to select sar power limit for K10A
-ifeq ($(MTK_WLAN_SAR_PROJECT), chopin)
-    ccflags-y += -DCFG_CHOPIN_SAR
-endif
-
-# add CFG_AGATE_SAR to select sar power limit for K11R
-ifeq ($(MTK_WLAN_SAR_PROJECT), agate)
-    ccflags-y += -DCFG_AGATE_SAR
-endif
+ccflags-y += -DCFG_AGATE_SAR
 
 ifeq ($(CONFIG_WLAN_DRV_BUILD_IN),y)
     ccflags-y += -DCFG_BUILT_IN_DRIVER=1
@@ -433,29 +422,14 @@ endif
 ifneq ($(TARGET_BUILD_VARIANT),user)
     ccflags-y += -DBUILD_QA_DBG=1
 else
-    ccflags-y += -DBUILD_QA_DBG=0
+ccflags-y += -DBUILD_QA_DBG=0
 endif
 
 ifeq ($(CONFIG_MTK_COMBO_WIFI),y)
     ccflags-y += -DCFG_WPS_DISCONNECT=1
 endif
 
-ifeq ($(CONFIG_MTK_COMBO_WIFI_HIF), sdio)
-    ccflags-y += -D_HIF_SDIO=1
-else ifeq ($(CONFIG_MTK_COMBO_WIFI_HIF), pcie)
-    ccflags-y += -D_HIF_PCIE=1
-else ifeq ($(CONFIG_MTK_COMBO_WIFI_HIF), usb)
-    ccflags-y += -D_HIF_USB=1
-else ifeq ($(CONFIG_MTK_COMBO_WIFI_HIF), axi)
-    ccflags-y += -D_HIF_AXI=1
-else ifeq ($(CONFIG_MTK_COMBO_WIFI_HIF), ut)
-    # Increase frame size to 2048 because of 'cfg80211_connect_result' exceed stack size
-    ccflags-y += -D_HIF_UT=1 -Wno-unused-function -Wno-unused-variable -Wframe-larger-than=2048
-else ifeq ($(CONFIG_MTK_COMBO_WIFI_HIF), none)
-	ccflags-y += -D_HIF_NONE=1
-else
-    $(error Unsuppoted HIF=$(CONFIG_MTK_COMBO_WIFI_HIF)!!)
-endif
+ccflags-y += -D_HIF_AXI=1
 
 ifeq ($(CONFIG_MTK_WIFI_DOWNLOAD_DYN_MEMORY_MAP), y)
     ccflags-y += -DCFG_DOWNLOAD_DYN_MEMORY_MAP=1
